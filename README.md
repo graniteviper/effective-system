@@ -80,10 +80,14 @@ Frontend will run at `http://localhost:3000`.
 
 ## 🧪 How to Use
 
+### Postgres via docker
+1. Make sure you have docker installed and docker engine running.
+2. Run the command `docker run --name connector -e POSTGRES_PASSWORD=supersecretpassword -p 5432:5432 -d postgres`.
+
 ### 🔧 GitHub Extractor
 
 1. Select **GitHub** from the dropdown.
-2. Enter your GitHub Personal Access Token (Make sure the token has the required permissions.
+2. Enter your GitHub Personal Access Token (Make sure the token has the required permissions).
 3. Click **Fetch Repositories**.
 4. For any repository:
 
