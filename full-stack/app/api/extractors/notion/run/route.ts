@@ -3,7 +3,7 @@ import { spawn } from "child_process";
 import path from "path";
 
 export async function POST(req: NextRequest) {
-  const { database_id, table_name = "notion_data" } = await req.json();
+  const { database_id, table_name = "notion_data", token } = await req.json();
 
   if (!database_id) {
     return NextResponse.json({ error: "Missing Notion database_id" }, { status: 400 });
@@ -38,7 +38,12 @@ export async function POST(req: NextRequest) {
   const loadScript = path.join(process.cwd(), "../backend/extractors/scripts/save_to_postgres.py");
 
   return new Promise((resolve) => {
-    const python = spawn("python", [loadScript, table_name]);
+    const python = spawn("python", [loadScript, table_name], {
+      env: {
+        ...process.env,
+        NOTION_TOKEN: token, // passed as env var
+      },
+    });
 
     let stdout = "";
     let stderr = "";

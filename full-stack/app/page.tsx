@@ -93,6 +93,7 @@ export default function GitHubExtractorPage() {
         },
       });
       const data = await res.json();
+      console.log(data);
       setNotionDBs(data.databases || []);
     } catch (err) {
       alert("Failed to fetch databases");
@@ -106,10 +107,10 @@ export default function GitHubExtractorPage() {
       const res = await fetch("/api/extractors/notion/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ database_id: id, table_name: "notion_data" }),
+        body: JSON.stringify({ database_id: id, table_name: "notion_data",token: notionToken }),
       });
       const result = await res.json();
-      alert(`✅ Saved ${result.records_saved} rows to DB`);
+      alert(`✅ Saved to DB`);
     } catch (e) {
       alert("Failed to save to DB");
     }
@@ -121,8 +122,14 @@ export default function GitHubExtractorPage() {
     try {
       const res = await fetch(
         `/api/extractors/notion/data?database_id=${dbId}`
-      );
+      , {
+        headers: {
+          "Token": `${notionToken}`
+        }
+      });
       const data = await res.json();
+      console.log(data);
+      
       setNotionDataByDB((prev) => ({ ...prev, [dbId]: data.records || [] }));
     } catch (e) {
       alert("Failed to fetch saved data from DB");
@@ -183,7 +190,7 @@ export default function GitHubExtractorPage() {
                     className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
                     disabled={loadingNotionData[db.id]}
                   >
-                    {loadingNotionData[db.id] ? "Loading..." : "Show Data"}
+                    {loadingNotionData[db.id] ? "Extracting..." : "Extract"}
                   </button>
                 </div>
                 {notionDataByDB[db.id] &&
@@ -232,7 +239,7 @@ export default function GitHubExtractorPage() {
                     className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
                     disabled={loadingIssues[repo.name]}
                   >
-                    {loadingIssues[repo.name] ? "Loading..." : "See Issues"}
+                    {loadingIssues[repo.name] ? "Extracting..." : "Extract Issues"}
                   </button>
                   <button
                     onClick={() => saveIssues(repo.name)}

@@ -4,8 +4,9 @@ import path from "path";
 
 export async function GET(req: NextRequest) {
   const dbId = req.nextUrl.searchParams.get("database_id");
-
-  if (!dbId) {
+  const token = req.headers.get('TOKEN');
+  console.log(token);
+  if (!dbId || !token) {
     return NextResponse.json(
       { error: "Missing Notion token or database_id" },
       { status: 400 }
@@ -18,9 +19,10 @@ export async function GET(req: NextRequest) {
   );
 
   return new Promise((resolve) => {
-    const python = spawn("python", [scriptPath, dbId], {
+    const python = spawn("python", [scriptPath, dbId, token], {
       env: {
         ...process.env,
+        NOTION_TOKEN: token, // passed as env var
       },
     });
 

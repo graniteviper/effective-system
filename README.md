@@ -2,6 +2,9 @@ Here’s a `README.md` for your full-stack data extraction tool using GitHub and
 
 ---
 
+### Video Link: https://drive.google.com/file/d/1cOcLxjlwjcotJvDl3jrZ5zyXabCyVC_O/view?usp=drive_link
+### Repo Link: https://github.com/graniteviper/effective-system
+
 ```markdown
 # 📊 Full-Stack Data Extractor – GitHub & Notion Integration
 
@@ -130,7 +133,8 @@ Frontend will run at `http://localhost:3000`.
 
 ## ✅ Future Improvements
 
-* Schema-aware dynamic table creation
-* Add other connectors (Google Sheets, Jira, etc.)
-* UI filtering and pagination
+* Schema-aware dynamic table creation.
+* Add other connectors (Google Sheets, Jira, etc.).
+* UI filtering and pagination.
+* Addin OAuth as the next upgrade.
 

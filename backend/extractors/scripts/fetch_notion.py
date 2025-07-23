@@ -6,12 +6,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".
 from connectors.notion_connector import NotionConnector
 
 def main():
-    if len(sys.argv) < 2:
-        print(json.dumps({"error": "Missing Notion database_id"}), flush=True)
+    if len(sys.argv) < 3:
+        print(json.dumps({"error": "Missing arguments: database_id and token"}), flush=True)
         sys.exit(1)
 
     database_id = sys.argv[1]
-    notion = NotionConnector()
+    token = sys.argv[2]
+
+    # ✅ Pass token explicitly
+    # print(token, 'hi')
+    notion = NotionConnector(token)
 
     try:
         data = notion.extract_data(database_id)
