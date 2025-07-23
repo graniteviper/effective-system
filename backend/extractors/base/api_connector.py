@@ -3,9 +3,7 @@ import time
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Generator, Callable
-
 import pandas as pd
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 logger = logging.getLogger(__name__)
 

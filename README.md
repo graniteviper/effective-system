@@ -1,125 +1,132 @@
-
-
-# Data Connector API Assignment
-
-## Overview
-
-This repository provides a minimal backend and API scaffold for building data connectors between business applications (sources) and storage targets (S3 or Postgres).  
-You are provided with:
-- An example source connector (Salesforce)
-- An example target (S3)
-- Base classes and conventions for connectors and storage
-- A minimal Next.js API route example
-
-Your task is to implement additional connectors and expose them via API endpoints, following the provided conventions.
+Here’s a `README.md` for your full-stack data extraction tool using GitHub and Notion. It includes a description, features, setup steps, and usage instructions:
 
 ---
 
-## Getting Started
+```markdown
+# 📊 Full-Stack Data Extractor – GitHub & Notion Integration
 
-### 1. **Clone the Repository**
+This project is a full-stack application that lets you extract data from GitHub repositories (issues) and Notion databases, and save it into a centralized PostgreSQL database. It features a clean UI for authentication, data preview, and persistence.
 
-```bash
-git clone https://github.com/your-org/your-repo.git
-cd your-repo
+## 🌟 Features
+
+- 🔐 Authenticate with GitHub (Personal Access Token) and Notion (Integration Token)
+- 📦 Extract GitHub repositories and their issues
+- 📚 Extract Notion databases and their entries
+- 💾 Save extracted data into a PostgreSQL database
+- 👀 View stored data in the frontend
+- ⚡ Built with Next.js (frontend + API routes) and Python backend (FastAPI or Flask-compatible extract/load logic)
+
+---
+
+## 🗂️ Project Structure
+
 ```
 
-### 2. **Set Up Environment Variables**
+assignment/
 
-Copy the example environment file and fill in your credentials:
+├── backend/
+
+│   └── extractors/
+
+│       ├── connectors/
+
+│       │   ├── github.py
+
+│       │   └── notion.py
+
+│       └── storage/
+
+│           └── postgres.py
+
+├── full-stack/
+
+│   └── (Next.js frontend + API routes)
+
+└── README.md
+
+````
+
+---
+
+## 🚀 Getting Started
+
+### 1. Backend Setup (Python)
+- Create and activate a virtual environment:
 
 ```bash
-cp .env.local.example .env.local
-```
+cd backend
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+````
 
-Edit `.env.local` and provide values for:
-- Supabase credentials
-- Salesforce credentials (if using)
-- S3 or Postgres credentials (depending on your chosen target)
-- Any other connector credentials you need
+* Install dependencies:
 
-### 3. **Install Dependencies**
-
-#### **Backend (Python)**
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
-#### **Frontend/API (Node.js/Next.js)**
+### 2. Frontend Setup (Next.js)
+
 ```bash
+cd full-stack
 npm install
-```
-
-### 4. **Run the Backend**
-
-If your backend is a standalone service, start it (adjust as needed):
-
-```bash
-# Example: if using FastAPI or Flask
-python -m backend.extractors
-```
-
-### 5. **Run the Next.js App**
-
-```bash
 npm run dev
 ```
 
----
-
-## Project Structure
-
-```
-backend/
-  extractors/
-    connectors/           # Connector implementations (Salesforce example provided)
-    base/                 # Base classes for connectors and storage
-    storage/              # Storage targets (S3 example provided)
-    extractors/           # Extraction orchestration
-  requirements.txt
-
-app/
-  api/                    # Next.js API routes (example provided)
-.env.local.example        # Environment variable template
-README.md                 # This file
-```
+Frontend will run at `http://localhost:3000`.
 
 ---
 
-## What’s Provided
+## 🧪 How to Use
 
-- **Example source connector:** `salesforce_connector.py`
-- **Example target:** `s3_storage.py`
-- **Base classes:** `api_connector.py`, `base_storage_manager.py`, `base_extractor.py`
-- **Minimal API route:** `app/api/extractors/[source]/objects/route.ts`
+### 🔧 GitHub Extractor
 
----
+1. Select **GitHub** from the dropdown.
+2. Enter your GitHub Personal Access Token (Make sure the token has the required permissions.
+3. Click **Fetch Repositories**.
+4. For any repository:
 
-## Your Tasks
+   * Click **See Issues** to view issues.
+   * Click **Save Issues to DB** to store them in PostgreSQL.
+   * If no issues are found, a message is shown.
 
-1. **Implement two new source connectors** (not Google Sheets or HubSpot).
-2. **Implement one new target** (S3 or Postgres).
-3. **Expose connector functionality as RESTful API endpoints.**
-4. **Build a minimal Next.js UI** to demonstrate connecting, extracting, and loading data.
-5. **Update this README** with setup and usage instructions for your implementation.
+### 🧠 Notion Extractor
 
----
+1. Select **Notion** from the dropdown.
+2. Enter your Notion Integration Token (Make sure the token has the required files accessible).
+3. Click **Show Databases**.
+4. For each database:
 
-## Tips
-
-- Follow the code structure and conventions in the provided files.
-- Use environment variables for all credentials and secrets.
-- Handle errors and edge cases gracefully.
-- The UI can be minimal but should demonstrate the end-to-end flow.
+   * Click **Save to DB** to extract and store entries.
+   * Click **Show Data** to view previously stored entries.
+   * If no entries are found, a message is shown.
 
 ---
 
-## License
+## 🛠️ Technologies Used
 
-This project is for assignment and demonstration purposes.
+* **Frontend**: Next.js 14, React, Tailwind CSS
+* **Backend**: Python, FastAPI
+* **Storage**: PostgreSQL
+* **APIs**:
+
+  * GitHub REST API
+  * Notion SDK & API
 
 ---
 
-**Good luck!**
+## 📌 Notes
+
+* Ensure GitHub PAT has `repo` scope.
+* Ensure Notion Integration is added to each workspace/database you're accessing.
+* All extracted data is stored in Postgres under relevant tables like `github_issues` and `notion_data`.
+
+---
+
+## ✅ Future Improvements
+
+* Schema-aware dynamic table creation
+* Add other connectors (Google Sheets, Jira, etc.)
+* UI filtering and pagination
 
