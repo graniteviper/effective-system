@@ -7,7 +7,6 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-
 class APIConnectorException(Exception):
     """Base exception class for API connector errors"""
     pass

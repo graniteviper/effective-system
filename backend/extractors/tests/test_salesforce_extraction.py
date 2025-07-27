@@ -12,7 +12,6 @@ import json
 import os
 from datetime import datetime
 
-from backend.extractors.connectors.salesforce_connector import SalesforceConnector
 from backend.extractors.storage.local_storage import LocalStorageManager
 from backend.extractors.extractors.salesforce_extractor import SalesforceExtractor
 
@@ -69,8 +68,8 @@ class TestSalesforceExtraction(unittest.TestCase):
     def tearDown(self):
         """Clean up after tests."""
         # Clean up test directory - uncomment if you want to inspect output
-        # import shutil
-        # shutil.rmtree(self.test_dir, ignore_errors=True)
+        import shutil
+        shutil.rmtree(self.test_dir, ignore_errors=True)
         pass
     
     @patch('backend.extractors.connectors.salesforce_connector.SalesforceConnector')

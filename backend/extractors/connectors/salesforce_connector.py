@@ -2,13 +2,10 @@
 Salesforce API connector implementation.
 This module provides a connector for Salesforce APIs.
 """
-
-import logging
 import time
-import json
-from typing import Dict, List, Any, Optional, Tuple, Union
+from typing import Dict, List, Any, Optional
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from backend.extractors.base.api_connector import BaseAPIConnector
 
