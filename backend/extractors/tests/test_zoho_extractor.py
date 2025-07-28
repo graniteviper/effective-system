@@ -7,12 +7,15 @@ This script validates the Zoho extraction framework with mock data.
 import unittest
 import logging
 from unittest.mock import MagicMock, patch
+from dotenv import load_dotenv
 import os
 from datetime import datetime
 
-from backend.extractors.storage.local_storage import LocalStorageManager
 from backend.extractors.extractors.zoho_extractor import ZohoExtractor
+from backend.extractors.storage.postgres_storage import PostgresStorageManager
 
+
+load_dotenv()
 
 class TestZohoExtraction(unittest.TestCase):
     def setUp(self):
@@ -48,11 +51,9 @@ class TestZohoExtraction(unittest.TestCase):
         mock_connector.fetch_data.return_value = self.mock_records
         mock_connector.fetch_schema.return_value = self.mock_schema
 
-        storage = LocalStorageManager({
-            "base_path": self.test_dir,
-            "create_dirs": True,
-            "timestamp_dirs": False
-        })
+        storage = PostgresStorageManager({
+    "connection_url": os.getenv("DATABASE_URL")
+})
 
         extractor = ZohoExtractor(
             connector=mock_connector,
@@ -81,11 +82,9 @@ class TestZohoExtraction(unittest.TestCase):
         mock_connector.fetch_data.return_value = [self.mock_records[1]]
         mock_connector.fetch_schema.return_value = self.mock_schema
 
-        storage = LocalStorageManager({
-            "base_path": self.test_dir,
-            "create_dirs": True,
-            "timestamp_dirs": False
-        })
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
 
         extractor = ZohoExtractor(
             connector=mock_connector,

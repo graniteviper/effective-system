@@ -11,10 +11,12 @@ from unittest.mock import MagicMock, patch
 import json
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
-from backend.extractors.storage.local_storage import LocalStorageManager
+from backend.extractors.storage.postgres_storage import PostgresStorageManager
 from backend.extractors.extractors.salesforce_extractor import SalesforceExtractor
 
+load_dotenv()
 
 class TestSalesforceExtraction(unittest.TestCase):
     """Test cases for Salesforce extraction framework."""
@@ -93,11 +95,9 @@ class TestSalesforceExtraction(unittest.TestCase):
         mock_connector.fetch_data.side_effect = mock_fetch_data
         
         # Create real storage
-        storage = LocalStorageManager({
-            "base_path": self.test_dir,
-            "create_dirs": True,
-            "timestamp_dirs": False
-        })
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
         
         # Create extractor
         extractor = SalesforceExtractor(
@@ -159,11 +159,9 @@ class TestSalesforceExtraction(unittest.TestCase):
         mock_connector.fetch_data.side_effect = mock_fetch_data
         
         # Create real storage
-        storage = LocalStorageManager({
-            "base_path": self.test_dir,
-            "create_dirs": True,
-            "timestamp_dirs": False
-        })
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
         
         # Create extractor
         extractor = SalesforceExtractor(
@@ -236,11 +234,9 @@ class TestSalesforceExtraction(unittest.TestCase):
         mock_connector.fetch_data.side_effect = mock_fetch_data
         
         # Create real storage
-        storage = LocalStorageManager({
-            "base_path": self.test_dir,
-            "create_dirs": True,
-            "timestamp_dirs": False
-        })
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
         
         # Create extractor
         extractor = SalesforceExtractor(

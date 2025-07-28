@@ -8,9 +8,14 @@ import logging
 from unittest.mock import MagicMock, patch
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
-from backend.extractors.storage.local_storage import LocalStorageManager
+
 from backend.extractors.extractors.sugarcrm_extractor import SugarCRMExtractor
+from backend.extractors.storage.postgres_storage import PostgresStorageManager
+
+
+load_dotenv()
 
 
 class TestSugarCRMExtraction(unittest.TestCase):
@@ -55,7 +60,9 @@ class TestSugarCRMExtraction(unittest.TestCase):
         mock_connector.fetch_schema.return_value = self.mock_schema
         mock_connector.fetch_data.side_effect = lambda obj, params=None: self.mock_accounts if obj == "Accounts" else self.mock_contacts
 
-        storage = LocalStorageManager({"base_path": self.test_dir, "create_dirs": True})
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
 
         extractor = SugarCRMExtractor(
             connector=mock_connector,
@@ -78,7 +85,9 @@ class TestSugarCRMExtraction(unittest.TestCase):
         mock_connector.fetch_schema.return_value = self.mock_schema
         mock_connector.fetch_data.side_effect = lambda obj, params=None: [self.mock_accounts[1]] if obj == "Accounts" else [self.mock_contacts[1]]
 
-        storage = LocalStorageManager({"base_path": self.test_dir, "create_dirs": True})
+        storage = PostgresStorageManager({
+                "connection_url": os.getenv("DATABASE_URL")
+})
 
         extractor = SugarCRMExtractor(
             connector=mock_connector,
