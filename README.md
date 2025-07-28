@@ -69,6 +69,8 @@ cd backend
 pip install -r requirements.txt
 ```
 
+### Create a .env file in the root 
+
 ### For zoho:
 ```
 python -m backend.extractors.tests.test_zoho_extractor
